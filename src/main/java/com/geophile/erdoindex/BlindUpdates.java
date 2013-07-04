@@ -8,12 +8,12 @@ import com.geophile.z.index.SpatialObjectKey;
 
 import java.io.IOException;
 
-class BlindUpdates<SPATIAL_OBJECT extends SpatialObject> extends ErdoIndex<SPATIAL_OBJECT>
+class BlindUpdates extends ErdoIndex
 {
     // Index interface
 
     @Override
-    public void add(long z, SPATIAL_OBJECT spatialObject) throws IOException, InterruptedException
+    public void add(long z, SpatialObject spatialObject) throws IOException, InterruptedException
     {
         SpatialObjectKey key = SpatialObjectKey.key(z, spatialObject.id());
         ErdoIndexRecord record = new ErdoIndexRecord(key, spatialObject);

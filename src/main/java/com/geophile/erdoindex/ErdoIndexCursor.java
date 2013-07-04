@@ -1,39 +1,38 @@
 package com.geophile.erdoindex;
 
 import com.geophile.erdo.OrderedMap;
-import com.geophile.z.SpatialObject;
 import com.geophile.z.index.Cursor;
 import com.geophile.z.index.Record;
 import com.geophile.z.index.SpatialObjectKey;
 
 import java.io.IOException;
 
-public class ErdoIndexCursor<SPATIAL_OBJECT extends SpatialObject> extends Cursor<SPATIAL_OBJECT>
+public class ErdoIndexCursor extends Cursor
 {
     // Cursor interface
 
     @Override
-    public Record<SPATIAL_OBJECT> next() throws IOException, InterruptedException
+    public Record next() throws IOException, InterruptedException
     {
-        Record<SPATIAL_OBJECT> record = new Record<>();
+        Record record = new Record();
         ErdoIndexRecord erdoIndexRecord = (ErdoIndexRecord) erdoCursor.next();
         if (erdoIndexRecord == null) {
             record.setEOF();
         } else {
-            record.set(erdoIndexRecord.key().spatialObjectKey().z(), (SPATIAL_OBJECT) erdoIndexRecord.spatialObject());
+            record.set(erdoIndexRecord.key().spatialObjectKey().z(), erdoIndexRecord.spatialObject());
         }
         return record;
     }
 
     @Override
-    public Record<SPATIAL_OBJECT> previous() throws IOException, InterruptedException
+    public Record previous() throws IOException, InterruptedException
     {
-        Record<SPATIAL_OBJECT> record = new Record<>();
+        Record record = new Record();
         ErdoIndexRecord erdoIndexRecord = (ErdoIndexRecord) erdoCursor.previous();
         if (erdoIndexRecord == null) {
             record.setEOF();
         } else {
-            record.set(erdoIndexRecord.key().spatialObjectKey().z(), (SPATIAL_OBJECT) erdoIndexRecord.spatialObject());
+            record.set(erdoIndexRecord.key().spatialObjectKey().z(), erdoIndexRecord.spatialObject());
         }
         return record;
     }

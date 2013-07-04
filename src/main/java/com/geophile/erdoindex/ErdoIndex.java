@@ -1,19 +1,17 @@
 package com.geophile.erdoindex;
 
-import com.geophile.erdo.*;
+import com.geophile.erdo.OrderedMap;
 import com.geophile.z.Index;
 import com.geophile.z.SpatialObject;
-import com.geophile.z.index.*;
+import com.geophile.z.index.SpatialObjectKey;
 
 import java.io.IOException;
 
 /**
  * ErdoIndex implementat Geophile's Index abstraction using the Erdo key/value store.
- *
- * @param <SPATIAL_OBJECT> The type of spatial object contained in this index.
  */
 
-public abstract class ErdoIndex<SPATIAL_OBJECT extends SpatialObject> implements Index<SPATIAL_OBJECT>
+public abstract class ErdoIndex implements Index
 {
     // Index interface
 
@@ -24,9 +22,9 @@ public abstract class ErdoIndex<SPATIAL_OBJECT extends SpatialObject> implements
     }
 
     @Override
-    public final ErdoIndexCursor<SPATIAL_OBJECT> cursor(long z) throws IOException, InterruptedException
+    public final ErdoIndexCursor cursor(long z) throws IOException, InterruptedException
     {
-        ErdoIndexCursor<SPATIAL_OBJECT> cursor = new ErdoIndexCursor<>(map);
+        ErdoIndexCursor cursor = new ErdoIndexCursor(map);
         cursor.goTo(SpatialObjectKey.keyLowerBound(z));
         return cursor;
     }
@@ -44,7 +42,7 @@ public abstract class ErdoIndex<SPATIAL_OBJECT extends SpatialObject> implements
     }
 
     @Override
-    public abstract void add(long z, SPATIAL_OBJECT spatialObject) throws IOException, InterruptedException;
+    public abstract void add(long z, SpatialObject spatialObject) throws IOException, InterruptedException;
 
     @Override
     public abstract boolean remove(long z, long soid) throws IOException, InterruptedException;
@@ -54,23 +52,21 @@ public abstract class ErdoIndex<SPATIAL_OBJECT extends SpatialObject> implements
     /**
      * Create an Erdo-based Index that does non-blind updates.
      * @param map The underlying Erdo map.
-     * @param <SPATIAL_OBJECT> The type of objects to be stored in the index.
      * @return An Erdo-based index.
      */
-    public static <SPATIAL_OBJECT extends SpatialObject> ErdoIndex<SPATIAL_OBJECT> withOrdinaryUpdates(OrderedMap map)
+    public static  ErdoIndex withOrdinaryUpdates(OrderedMap map)
     {
-        return new OrdinaryUpdates<>(map);
+        return new OrdinaryUpdates(map);
     }
 
     /**
      * Create an Erdo-based Index that does blind updates.
      * @param map The underlying Erdo map.
-     * @param <SPATIAL_OBJECT> The type of objects to be stored in the index.
      * @return An Erdo-based index.
      */
-    public static <SPATIAL_OBJECT extends SpatialObject> ErdoIndex<SPATIAL_OBJECT> withBlindUpdates(OrderedMap map)
+    public static ErdoIndex withBlindUpdates(OrderedMap map)
     {
-        return new BlindUpdates<>(map);
+        return new BlindUpdates(map);
     }
 
     // For use by subclasses
