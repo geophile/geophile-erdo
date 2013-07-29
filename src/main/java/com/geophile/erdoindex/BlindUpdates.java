@@ -3,6 +3,7 @@ package com.geophile.erdoindex;
 import com.geophile.erdo.DeadlockException;
 import com.geophile.erdo.OrderedMap;
 import com.geophile.erdo.TransactionRolledBackException;
+import com.geophile.z.Serializer;
 import com.geophile.z.SpatialObject;
 import com.geophile.z.index.SpatialObjectKey;
 
@@ -16,7 +17,7 @@ class BlindUpdates extends ErdoIndex
     public void add(long z, SpatialObject spatialObject) throws IOException, InterruptedException
     {
         SpatialObjectKey key = SpatialObjectKey.key(z, spatialObject.id());
-        ErdoIndexRecord record = new ErdoIndexRecord(key, spatialObject);
+        ErdoIndexRecord record = new ErdoIndexRecord(serializer, key, spatialObject);
         try {
             map.ensurePresent(record);
         } catch (DeadlockException | TransactionRolledBackException e) {
@@ -38,8 +39,8 @@ class BlindUpdates extends ErdoIndex
 
     // BlindUpdate interface
 
-    BlindUpdates(OrderedMap map)
+    BlindUpdates(Serializer serializer, OrderedMap map)
     {
-        super(map, true);
+        super(serializer, map, true);
     }
 }

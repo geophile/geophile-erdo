@@ -1,6 +1,7 @@
 package com.geophile.erdoindex;
 
 import com.geophile.erdo.OrderedMap;
+import com.geophile.z.Serializer;
 import com.geophile.z.index.Cursor;
 import com.geophile.z.index.Record;
 import com.geophile.z.index.SpatialObjectKey;
@@ -46,9 +47,10 @@ public class ErdoIndexCursor extends Cursor
 
     // ErdoIndexCursor interface
 
-    public ErdoIndexCursor(OrderedMap map) throws IOException, InterruptedException
+    public ErdoIndexCursor(ErdoIndex erdoIndex) throws IOException, InterruptedException
     {
-        this.map = map;
+        this.map = erdoIndex.map;
+        this.serializer = erdoIndex.serializer;
         this.erdoCursor = newCursor(SpatialObjectKey.keyLowerBound(Long.MIN_VALUE));
     }
 
@@ -62,5 +64,6 @@ public class ErdoIndexCursor extends Cursor
     // Object state
 
     private final OrderedMap map;
+    private final Serializer serializer;
     private com.geophile.erdo.Cursor erdoCursor;
 }

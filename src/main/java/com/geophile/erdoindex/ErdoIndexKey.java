@@ -20,7 +20,12 @@ public class ErdoIndexKey extends AbstractKey
     @Override
     public boolean equals(Object obj)
     {
-        return obj != null && obj instanceof ErdoIndexKey && key.equals(obj);
+        if (obj == null || !(obj instanceof ErdoIndexKey)) {
+            return false;
+        } else {
+            ErdoIndexKey that = (ErdoIndexKey) obj;
+            return this.key.equals(that.key);
+        }
     }
 
     @Override
@@ -42,18 +47,20 @@ public class ErdoIndexKey extends AbstractKey
     // AbstractKey interface
 
     @Override
-    public void readFrom(ByteBuffer byteBuffer) throws BufferUnderflowException
+    public void readFrom(ByteBuffer buffer) throws BufferUnderflowException
     {
-        long z = byteBuffer.getLong();
-        long soid = byteBuffer.getLong();
+        super.readFrom(buffer);
+        long z = buffer.getLong();
+        long soid = buffer.getLong();
         key = SpatialObjectKey.key(z, soid);
     }
 
     @Override
-    public void writeTo(ByteBuffer byteBuffer) throws BufferOverflowException
+    public void writeTo(ByteBuffer buffer) throws BufferOverflowException
     {
-        byteBuffer.putLong(key.z());
-        byteBuffer.putLong(key.soid());
+        super.writeTo(buffer);
+        buffer.putLong(key.z());
+        buffer.putLong(key.soid());
     }
 
     @Override
@@ -78,6 +85,11 @@ public class ErdoIndexKey extends AbstractKey
     public ErdoIndexKey(SpatialObjectKey key)
     {
         this.key = key;
+    }
+
+    public ErdoIndexKey()
+    {
+        return;
     }
 
     // Object state

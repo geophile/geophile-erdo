@@ -4,6 +4,7 @@ import com.geophile.erdo.DeadlockException;
 import com.geophile.erdo.OrderedMap;
 import com.geophile.erdo.TransactionRolledBackException;
 import com.geophile.z.DuplicateSpatialObjectException;
+import com.geophile.z.Serializer;
 import com.geophile.z.SpatialObject;
 import com.geophile.z.index.SpatialObjectKey;
 
@@ -17,7 +18,7 @@ class OrdinaryUpdates extends ErdoIndex
     public void add(long z, SpatialObject spatialObject) throws IOException, InterruptedException
     {
         SpatialObjectKey key = SpatialObjectKey.key(z, spatialObject.id());
-        ErdoIndexRecord record = new ErdoIndexRecord(key, spatialObject);
+        ErdoIndexRecord record = new ErdoIndexRecord(serializer, key, spatialObject);
         try {
             ErdoIndexRecord replaced = (ErdoIndexRecord) map.put(record);
             if (replaced != null) {
@@ -44,8 +45,8 @@ class OrdinaryUpdates extends ErdoIndex
 
     // BlindUpdate interface
 
-    OrdinaryUpdates(OrderedMap map)
+    OrdinaryUpdates(Serializer serializer, OrderedMap map)
     {
-        super(map, false);
+        super(serializer, map, false);
     }
 }

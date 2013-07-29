@@ -2,6 +2,7 @@ package com.geophile.erdoindex;
 
 import com.geophile.erdo.OrderedMap;
 import com.geophile.z.Index;
+import com.geophile.z.Serializer;
 import com.geophile.z.SpatialObject;
 import com.geophile.z.index.SpatialObjectKey;
 
@@ -24,7 +25,7 @@ public abstract class ErdoIndex implements Index
     @Override
     public final ErdoIndexCursor cursor(long z) throws IOException, InterruptedException
     {
-        ErdoIndexCursor cursor = new ErdoIndexCursor(map);
+        ErdoIndexCursor cursor = new ErdoIndexCursor(this);
         cursor.goTo(SpatialObjectKey.keyLowerBound(z));
         return cursor;
     }
@@ -54,9 +55,9 @@ public abstract class ErdoIndex implements Index
      * @param map The underlying Erdo map.
      * @return An Erdo-based index.
      */
-    public static  ErdoIndex withOrdinaryUpdates(OrderedMap map)
+    public static  ErdoIndex withOrdinaryUpdates(OrderedMap map, Serializer serializer)
     {
-        return new OrdinaryUpdates(map);
+        return new OrdinaryUpdates(serializer, map);
     }
 
     /**
@@ -64,21 +65,23 @@ public abstract class ErdoIndex implements Index
      * @param map The underlying Erdo map.
      * @return An Erdo-based index.
      */
-    public static ErdoIndex withBlindUpdates(OrderedMap map)
+    public static ErdoIndex withBlindUpdates(OrderedMap map, Serializer serializer)
     {
-        return new BlindUpdates(map);
+        return new BlindUpdates(serializer, map);
     }
 
     // For use by subclasses
 
-    protected ErdoIndex(OrderedMap map, boolean blindUpdates)
+    protected ErdoIndex(Serializer serializer, OrderedMap map, boolean blindUpdates)
     {
+        this.serializer = serializer;
         this.map = map;
         this.blindUpdates = blindUpdates;
     }
 
     // Object state
 
+    protected Serializer serializer;
     protected final OrderedMap map;
     private final boolean blindUpdates;
 }
