@@ -36,7 +36,6 @@ public abstract class ErdoIndexTestBase extends IndexTestBase
         database.close();
     }
 
-    private static final File DB_DIRECTORY = new File("/tmp/erdo-index-test");
     private static void deleteRecursively(File root)
     {
         if (root.isDirectory()) {
@@ -48,6 +47,7 @@ public abstract class ErdoIndexTestBase extends IndexTestBase
         }
     }
 
+    private static final File DB_DIRECTORY = new File("/tmp/erdo-index-test");
 
     protected Database database;
 }

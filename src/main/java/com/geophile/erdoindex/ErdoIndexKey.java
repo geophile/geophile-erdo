@@ -22,9 +22,11 @@ public class ErdoIndexKey extends AbstractKey
     {
         if (obj == null || !(obj instanceof ErdoIndexKey)) {
             return false;
-        } else {
+        } else if (super.equals(obj)) {
             ErdoIndexKey that = (ErdoIndexKey) obj;
             return this.key.equals(that.key);
+        } else {
+            return false;
         }
     }
 
@@ -34,13 +36,16 @@ public class ErdoIndexKey extends AbstractKey
         return key.hashCode();
     }
 
-
     // Comparable interface
 
     @Override
     public int compareTo(AbstractKey that)
     {
-        return key.compareTo(((ErdoIndexKey)that).key);
+        int c = super.compareTo(that);
+        if (c == 0) {
+            c = key.compareTo(((ErdoIndexKey)that).key);
+        }
+        return c;
     }
 
 
