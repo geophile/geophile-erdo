@@ -3,10 +3,7 @@ package com.geophile.erdoindex;
 import com.geophile.erdo.Database;
 import com.geophile.erdo.OrderedMap;
 import com.geophile.z.Index;
-import com.geophile.z.Serializer;
 import com.geophile.z.space.SpatialIndexTestBase;
-import com.geophile.z.spatialobject.d2.Box;
-import com.geophile.z.spatialobject.d2.Point;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -18,6 +15,7 @@ public class ErdoIndexSpatialTest extends SpatialIndexTestBase
     @BeforeClass
     public static void beforeClass() throws Exception
     {
+        SpatialIndexTestBase.beforeClass();
         deleteRecursively(DB_DIRECTORY);
         database = Database.createDatabase(DB_DIRECTORY);
     }
@@ -33,15 +31,14 @@ public class ErdoIndexSpatialTest extends SpatialIndexTestBase
     {
         ErdoIndexRecordFactory recordFactory = new ErdoIndexRecordFactory(SERIALIZER);
         OrderedMap map = database.createMap(newMapName(), recordFactory);
-        return ErdoIndex.withBlindUpdates(map, serializer());
+        return ErdoIndex.withOrdinaryUpdates(map, SERIALIZER);
     }
 
-    private static Serializer serializer()
+    @Override
+    public void commitTransaction() throws IOException, InterruptedException
     {
-        Serializer serializer = Serializer.newSerializer();
-        serializer.register(1, Point.class);
-        serializer.register(2, Box.class);
-        return serializer;
+        database.commitTransaction();
+        database.flush();
     }
 
     private static void deleteRecursively(File root)

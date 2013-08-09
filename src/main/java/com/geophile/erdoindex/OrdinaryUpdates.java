@@ -1,5 +1,6 @@
 package com.geophile.erdoindex;
 
+import com.geophile.erdo.AbstractRecord;
 import com.geophile.erdo.DeadlockException;
 import com.geophile.erdo.OrderedMap;
 import com.geophile.erdo.TransactionRolledBackException;

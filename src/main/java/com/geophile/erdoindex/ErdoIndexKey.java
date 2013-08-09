@@ -14,7 +14,7 @@ public class ErdoIndexKey extends AbstractKey
     @Override
     public String toString()
     {
-        return key.toString();
+        return super.toString() + '/' + key.toString();
     }
 
     @Override
