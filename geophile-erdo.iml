@@ -11,9 +11,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.geophile:geophile:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.geophile:geophile:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.vividsolutions:jts:1.8" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: com.geophile:geophile:test-jar:tests:1.1.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.geophile:geophile:test-jar:tests:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.geophile:erdo:1.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.1" level="project" />
   </component>

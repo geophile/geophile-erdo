@@ -8,20 +8,20 @@
     <groupId>com.geophile</groupId>
     <artifactId>geophile-erdo</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
   <name>geophile-erdo</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
       <groupId>com.geophile</groupId>
       <artifactId>geophile</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.geophile</groupId>
       <artifactId>geophile</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
